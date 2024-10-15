@@ -32,6 +32,9 @@ app.use(session({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use(require('./controllers/index'));
+
+
 // Serve static files from the public directory
 
 app.use(express.static(path.join(__dirname, 'public')));
