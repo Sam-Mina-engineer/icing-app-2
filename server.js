@@ -4,7 +4,8 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const dotenv = require('dotenv');
 const path = require('path');
 const exphbs = require('express-handlebars');  // Handlebars
-const db = require('./models');
+const sequelize = require('./config/connection');
+//const { engine } = require('express-handlebars');  // Updated way to require express handlebars
 
 // Load environment variables
 
@@ -13,6 +14,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+const hbs = exphbs.create()
 // Session setup
 
 app.use(session({
@@ -20,7 +22,7 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
   store: new SequelizeStore({
-    db: db.sequelize  // Store sessions in PostgreSQL using Sequelize
+    db: sequelize  // Store sessions in PostgreSQL using Sequelize
   }),
   cookie: {
     maxAge: 24 * 60 * 60 * 1000  // 24 hours
@@ -28,6 +30,9 @@ app.use(session({
 }));
 
 // Middleware to parse incoming requests with JSON and URL encoded data
+
+app.engine('handlebars', hbs.engine) 
+app.set('view engine', 'handlebars');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -39,22 +44,22 @@ app.use(require('./controllers/index'));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Set up Handlebars
 
-const { engine } = require('express-handlebars');  // Updated way to require express handlebars
-app.set('view engine', 'handlebars');
+
+
+
 
 // Routes (linking to controller file)
 
-app.use(require('./controllers/api/api')); //corrected path
+app.use(require('./controllers/api')); //corrected path
 
 // Default route 
-app.get('/', (req, res) => {
-  res.redirect('/login');  // Redirect to the login page
-});
+// app.get('/', (req, res) => {
+//   res.redirect('/login');  // Redirect to the login page
+// });
 
 // Start the server
 
-db.sequelize.sync().then(() => {
+sequelize.sync().then(() => {
   app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 }).catch(err => console.error('Unable to connect:', err));
