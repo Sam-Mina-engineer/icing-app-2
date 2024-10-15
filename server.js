@@ -38,7 +38,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Set up Handlebars
 
-app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
+const { engine } = require('express-handlebars');  // Updated way to require express handlebars
 app.set('view engine', 'handlebars');
 
 // Routes (linking to controller file)
