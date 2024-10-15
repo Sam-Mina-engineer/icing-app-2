@@ -43,7 +43,7 @@ app.set('view engine', 'handlebars');
 
 // Routes (linking to controller file)
 
-app.use(require('./controllers/api'));
+app.use(require('./controllers/api/api')); //corrected path
 
 // Default route 
 app.get('/', (req, res) => {
