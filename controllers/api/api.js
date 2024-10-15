@@ -11,7 +11,7 @@ const validateNewOrder = (req, res, next) => {
     customerName: Joi.string().min(3).required(),
     itemOrdered: Joi.string().required(),
     pickupDate: Joi.string().required(),
-    details: Joi.string().allow(null, ''), //To allow for incomplete submissions 
+    details: Joi.string().allow(null, ''), // To allow for incomplete submissions 
     employeeId: Joi.number().required()  // Employee ID for assignment
   });
 
@@ -21,6 +21,16 @@ const validateNewOrder = (req, res, next) => {
   }
 
   next();
+};
+
+// Middleware to check session verification
+
+const isAuthenticated = (req, res, next) => {
+  if (req.session.loggedIn) {
+    return next(); // Proceed if authenticated
+  } else {
+    return res.redirect('/login'); // Redirect to login if not authenticated
+  }
 };
 
 // POST route for handling login
@@ -46,13 +56,9 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// GET route for displaying the dashboard
+// GET route for displaying the dashboard (Protected by authentication)
 
-router.get('/dashboard', async (req, res) => {
-  if (!req.session.loggedIn) {
-    return res.redirect('/login');  // Redirect to login if not authenticated
-  }
-
+router.get('/dashboard', isAuthenticated, async (req, res) => {
   try {
     // Fetch all orders and employees to pass to the dashboard
 
@@ -65,9 +71,9 @@ router.get('/dashboard', async (req, res) => {
   }
 });
 
-// POST route for adding a new order
+// POST route for adding a new order 
 
-router.post('/orders', validateNewOrder, async (req, res) => {
+router.post('/orders', isAuthenticated, validateNewOrder, async (req, res) => {
   try {
     const { customerName, itemOrdered, pickupDate, details, employeeId } = req.body;
 
@@ -87,9 +93,9 @@ router.post('/orders', validateNewOrder, async (req, res) => {
   }
 });
 
-// PUT route for updating an order status
+// PUT route for updating an order status 
 
-router.put('/orders/:id', async (req, res) => {
+router.put('/orders/:id', isAuthenticated, async (req, res) => {
   try {
     const updatedOrder = await Order.update(
       { status: req.body.status },
@@ -104,17 +110,17 @@ router.put('/orders/:id', async (req, res) => {
   }
 });
 
-// DELETE route for deleting an order
+// DELETE route for deleting an order 
 
-router.delete('/orders/:id', async (req, res) => {
+router.delete('/orders/:id', isAuthenticated, async (req, res) => {
   try {
     const deleted = await Order.destroy({ where: { id: req.params.id } });
     if (!deleted) {
       return res.status(404).json({ message: 'Order not found' });
     }
-    res.status(200).json({ message: 'Order archived successfully' });
+    res.status(200).json({ message: 'Order deleted successfully' });
   } catch (err) {
-    res.status(500).json({ error: 'Failed to archive order' });
+    res.status(500).json({ error: 'Failed to deleted order' });
   }
 });
 
