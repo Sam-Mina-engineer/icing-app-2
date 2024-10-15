@@ -1,21 +1,33 @@
-# Icing App
+# Icing!
 
-[![Static Badge](https://img.shields.io/badge/License-MIT-lightblue)](https://choosealicense.com/licenses/mit/)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
 ## Description
-Icing is an application built to help bakery managers and employees track orders' progress and completion. Employees can log in to their account to access the order dashboard, where orders that are new, in-progress, and ready for pickup are displayed. 
+Icing is an application built to help bakery managers and employees track orders' progress and completion. Employees can log in to their account to access the order dashboard, where orders that are new, in-progress, and ready for pickup are displayed.
 
 ## Table of Contents
-  * [Technologies Used](#technologies_used)
-  * [Application Screenshot](#application_screenshot)
-  * [Link](#Link)
+- [Installation](#installation)  
+- [Usage](#usage)  
+- [License](#license) 
+- [Contributing](#contributing)  
+- [Tests](#tests)  
+- [Questions](#questions)
 
-## Technologies Used
-* Node.js and Express.js to create a RESTful API
-* Handlebars.js as the template engine
-* PostgreSQL and the Sequelize ORM for the database
-* Joi npm package for validation
+## Installation
+Navigate to deployed Render endpoint URL
 
-## Application Screenshot
+## Usage
+A bakery order tracking app built with Node.js, Express, Handlebars, PostgreSQL, and Sequelize, with JOI session validation.
 
-## Link
+## License
+This project is licensed under the MIT license.
+
+## Contributing
+Designed and built by Sam Mina, Matthew Poe, and Jessikah Riley.
+
+## Tests
+Run Postgres on local machine, run the schema and populate with seed data. 
+
+## Questions
+If you have any questions, please contact me at [samandmissy2010@gmail.com and matthewpoe101@gmail.com](mailto:samandmissy2010@gmail.com and matthewpoe101@gmail.com).
+You can also find more of my work on my [GitHub profile](https://github.com/Sam-Mina-engineer and MattP74 and rileyjess).
