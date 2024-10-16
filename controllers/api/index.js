@@ -91,4 +91,24 @@ router.post('/orders', isAuthenticated, validateNewOrder, async (req, res) => {
   }
 });
 
+// DELETE route to delete an order by ID
+
+router.delete('/orders/:id', async (req, res) => {
+  try {
+    const orderId = req.params.id;
+    const orderData = await Order.destroy({
+      where: { id: orderId }
+    });
+
+    if (!orderData) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+
+    res.status(200).json({ message: 'Order successfully deleted' });
+  } catch (err) {
+    console.error('Failed to delete order:', err);
+    res.status(500).json({ error: 'Failed to delete order' });
+  }
+});
+
 module.exports = router;

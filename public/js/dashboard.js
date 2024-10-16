@@ -66,3 +66,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+  // Handle delete button click event
+  
+  document.querySelectorAll('.delete-order').forEach((button) => {
+    button.addEventListener('click', async (event) => {
+      const orderId = event.target.getAttribute('data-id');
+      
+      try {
+        const response = await fetch(`/api/orders/${orderId}`, {
+          method: 'DELETE',
+        });
+
+        if (response.ok) {
+          document.location.replace('/dashboard'); // Refresh the page to reflect the changes
+        } else {
+          alert('Failed to delete order.');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    });
+  });
