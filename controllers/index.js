@@ -2,6 +2,16 @@ const express = require('express');
 const router = express.Router();
 const { Employee, Order } = require('../models'); // Import the models
 
+// Middleware to check session verification
+
+const isAuthenticated = (req, res, next) => {
+  if (req.session.loggedIn) {
+    return next(); // Proceed if authenticated
+  } else {
+    return res.redirect('/login'); // Redirect to login if not authenticated
+  }
+};
+
 // Import routes from the api.js file
 
 const apiRoutes = require('./api');
