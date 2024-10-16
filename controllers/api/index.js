@@ -10,11 +10,11 @@ const { Employee, Order } = require('../../models');
 
 const validateNewOrder = (req, res, next) => {
   const schema = Joi.object({
-    customerName: Joi.string().min(3).required(),
-    itemOrdered: Joi.string().required(),
-    pickupDate: Joi.string().required(),
-    details: Joi.string().allow(null, ''), // To allow incomplete submissions
-    employeeId: Joi.number().required()  // Employee ID for assignment
+    customer_name: Joi.string().min(3).required(),
+    item_ordered: Joi.string().required(),
+    pickup_date: Joi.string().required(),
+    details: Joi.string().allow(null, ''),
+    employee_id: Joi.number().required()
   });
 
   const { error } = schema.validate(req.body);
@@ -25,7 +25,6 @@ const validateNewOrder = (req, res, next) => {
   next();
 };
 
-// Middleware to check session verification
 
 const isAuthenticated = (req, res, next) => {
   if (req.session.loggedIn) {
@@ -70,5 +69,26 @@ router.post('/logout', isAuthenticated, (req, res) => {
 });
 
 // Dashboard and order management routes.
+
+// POST route to create a new order
+
+router.post('/orders', isAuthenticated, validateNewOrder, async (req, res) => {
+  try {
+    const { customer_name, item_ordered, pickup_date, details, employee_id } = req.body;
+
+    const order = await Order.create({
+      customer_name,
+      item_ordered,
+      pickup_date,
+      details,
+      employee_id,
+    });
+    console.log('Order created:', order); // Log the created order to verify
+    res.status(201).json(order);
+  } catch (err) {
+    console.error('Error creating order:', err);
+    res.status(500).json({ error: 'Failed to create new order' });
+  }
+});
 
 module.exports = router;

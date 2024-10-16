@@ -35,42 +35,41 @@
                             <div class="row">
                                 <div class="col-6">
                                     <label for="itemOrdered" class="form-label">Item ordered</label>
-                                    <input type="text" class="form-control" id="item-ordered">
+                                    <input type="text" class="form-control" id="item-ordered" name="itemOrdered" required>
                                 </div>
                                 <div class="col-6">
                                     <label for="customerName" class="form-label">Customer Name</label>
-                                    <input class="form-control" id="customer-name">
+                                    <input class="form-control" id="customer-name" name="customerName" required>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-6">
                                     <label for="orderPickupDate" class="form-label mt-1">Pickup Date</label>
-                                    <input class="form-control" id="pickup-date">
+                                    <input type="date" class="form-control" id="pickup-date" name="pickupDate" required>
                                 </div>
                                 <div class="dropdown col-6">
-                                    <button class="btn dropdown-toggle" id="employee-list" type="button"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                    <button class="btn dropdown-toggle" id="employee-list" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         Select an Employee
                                     </button>
-                                    <!-- Dynamically add in the employee names -->
-                                    
                                     <ul class="dropdown-menu">
                                         {{#each employees}} <!-- Dynamically populating employee names -->
                                             <li><a class="dropdown-item" data-id="{{this.id}}" href="#">{{this.name}}</a></li>
                                         {{/each}}
                                     </ul>
                                 </div>
+                                <!-- Hidden input to store the selected employee ID -->
+                                <input type="hidden" id="employee-id" name="employeeId" required>
                             </div>
                             <div class="col-12">
                                 <label for="details" class="form-label mt-1">More Details</label>
-                                <textarea class="form-control" id="details"></textarea>
+                                <textarea class="form-control" id="details" name="details"></textarea>
                             </div>
                             <div class="modal-footer d-flex justify-content-center">
                                 <button type="submit" class="btn">Add Order</button>
                             </div>
+                        </form>
                     </div>
                 </div>
-                </form>
             </div>
         </div>
     </div>
@@ -82,30 +81,19 @@
                     <h2 class="card-title mb-1">New Orders</h2>
                 </div>
                 <div class="card-body">
-                    <div id="new-orders">{{!-- Dynamically load new orders --}}</div>
+                    {{#each orders}}
+                        <div class="order">
+                            <h4>{{item_ordered}}</h4>
+                            <p>Customer: {{customer_name}}</p>
+                            <p>Pickup Date: {{pickup_date}}</p>
+                            <p>Employee ID: {{employee_id}}</p>
+                            <p>Details: {{details}}</p>
+                        </div>
+                    {{/each}}
                 </div>
             </div>
         </div>
-        <div class="col-12 col-lg-4 d-flex">
-            <div id="in-progress" class="card mb-3 lane flex-grow-1">
-                <div class="card-header bg-white">
-                    <h2 class="card-title mb-1">In Progress</h2>
-                </div>
-                <div class="card-body">
-                    <div id="in-progress-orders">{{!-- Dynamically load in-progress orders --}}</div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-lg-4 d-flex">
-            <div id="done" class="card mb-3 lane flex-grow-1">
-                <div class="card-header bg-white">
-                    <h2 class="card-title mb-1">Ready for Pickup</h2>
-                </div>
-                <div class="card-body">
-                    <div id="ready-orders" class="pickup-list">{{!-- Dynamically load ready orders --}}</div>
-                </div>
-            </div>
-        </div>
+        <!-- Similar sections for "In Progress" and "Ready for Pickup" can be added here if needed -->
     </div>
 </div>
 

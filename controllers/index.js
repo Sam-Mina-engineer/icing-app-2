@@ -49,9 +49,17 @@ router.post('/logout', (req, res) => {
 router.get('/dashboard', isAuthenticated, async (req, res) => {
   try {
     // Fetch all orders and employees to pass to the dashboard
-    const orders = await Order.findAll({ raw: true });
-    const employees = await Employee.findAll({ raw: true });
+    const ordersData = await Order.findAll(); // Fetch all orders
+    const employeesData = await Employee.findAll(); // Fetch all employees
 
+    // Transform Sequelize models to plain objects
+    const orders = ordersData.map(order => order.get({ plain: true }));
+    const employees = employeesData.map(employee => employee.get({ plain: true }));
+
+    // Log orders for debugging purposes
+    console.log('Orders:', orders); // Ensure orders are being fetched correctly
+
+    // Render the dashboard view with the fetched data
     res.render('dashboard', { orders, employees, loggedIn: req.session.loggedIn });
   } catch (err) {
     console.error('Failed to load dashboard data:', err);
