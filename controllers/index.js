@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { Employee, Order } = require('../models'); // Import the models
 
 // Import routes from the api.js file
 
@@ -15,13 +16,13 @@ router.get('/login', (req, res) => {
   res.render('login');  // Render the login.handlebars template
 });
 
-// Add a GET route
+// Add a GET route for /
 
 router.get('/', (req, res) => {
   res.redirect('/login');  // Redirect to login
 });
 
-// Add a POST route for logout 
+// Add a POST route for logout
 
 router.post('/logout', (req, res) => {
   req.session.destroy((err) => {
@@ -31,6 +32,21 @@ router.post('/logout', (req, res) => {
     }
     res.redirect('/login');  // Redirect to login after logout
   });
+});
+
+// Add a GET route for /dashboard with session authentication
+
+router.get('/dashboard', isAuthenticated, async (req, res) => {
+  try {
+    // Fetch all orders and employees to pass to the dashboard
+    const orders = await Order.findAll({ raw: true });
+    const employees = await Employee.findAll({ raw: true });
+
+    res.render('dashboard', { orders, employees, loggedIn: req.session.loggedIn });
+  } catch (err) {
+    console.error('Failed to load dashboard data:', err);
+    res.status(500).json({ error: 'Failed to load dashboard data' });
+  }
 });
 
 module.exports = router;
