@@ -7,24 +7,30 @@ const apiRoutes = require('./api');
 
 // Set up API routes at /api
 
-
+router.use('/api', apiRoutes);
 
 // Add a GET route for /login to render the login page
-
-router.get('/', (req, res) => {
-  console.log('hello')
-  res.render('login');  
-});
 
 router.get('/login', (req, res) => {
   res.render('login');  // Render the login.handlebars template
 });
 
+// Add a GET route
 
-router.use('/api', apiRoutes);
+router.get('/', (req, res) => {
+  res.redirect('/login');  // Redirect to login
+});
 
-// router.use((req, res) => {
-//   res.status(404).render('404');  
-// });
+// Add a POST route for logout 
+
+router.post('/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Failed to destroy session:', err);
+      return res.status(500).send('Failed to logout');
+    }
+    res.redirect('/login');  // Redirect to login after logout
+  });
+});
 
 module.exports = router;

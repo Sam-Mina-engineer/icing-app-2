@@ -5,7 +5,7 @@ const dotenv = require('dotenv');
 const path = require('path');
 const exphbs = require('express-handlebars');  // Handlebars
 const sequelize = require('./config/connection');
-//const { engine } = require('express-handlebars');  // Updated way to require express handlebars
+
 
 // Load environment variables
 
@@ -45,18 +45,11 @@ app.use(require('./controllers/index'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-
-
-
-
 // Routes (linking to controller file)
 
 app.use(require('./controllers/api')); //corrected path
 
-// Default route 
-// app.get('/', (req, res) => {
-//   res.redirect('/login');  // Redirect to the login page
-// });
+
 
 // Start the server
 
