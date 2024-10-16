@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
   // Handle delete button click event
-  
+
   document.querySelectorAll('.delete-order').forEach((button) => {
     button.addEventListener('click', async (event) => {
       const orderId = event.target.getAttribute('data-id');
@@ -87,4 +87,24 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Error:', error);
       }
     });
+  });
+
+  // Handle logout button click
+  
+  const logoutButton = document.getElementById('logout');
+  logoutButton.addEventListener('click', async () => {
+    try {
+      const response = await fetch('/logout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (response.ok) {
+        document.location.replace('/login'); // Redirect to login page
+      } else {
+        alert('Failed to logout.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   });
