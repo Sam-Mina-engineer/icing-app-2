@@ -51,6 +51,7 @@ Order.init(
     // Fixed the model name from 'project' to 'order'
 
     modelName: 'order',  // Corrected model name to 'order' to match.
+    tableName: 'bakeryorder', // Changing name of table to avoid PostgreSQL conflict
   }
 );
 

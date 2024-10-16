@@ -5,7 +5,7 @@ const employeeData = require('./employeeData.json');
 const orderData = require('./orderData.json');
 
 const seedDatabase = async () => {
-  await sequelize.sync({ force: true });
+  await sequelize.sync({ force: false }); //changed to false to protect database in Render
 
  
   const employees = await Employee.bulkCreate(employeeData, {

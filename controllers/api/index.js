@@ -52,6 +52,7 @@ router.post('/login', async (req, res) => {
 
     res.redirect('/dashboard');
   } catch (err) {
+    console.error(err);  // Log the error for debugging
     res.status(500).json({ error: 'Login failed' });
   }
 });
@@ -67,6 +68,7 @@ router.get('/dashboard', isAuthenticated, async (req, res) => {
 
     res.render('dashboard', { orders, employees });
   } catch (err) {
+    console.error(err);  // Log the error for debugging
     res.status(500).json({ error: 'Failed to load dashboard data' });
   }
 });
@@ -89,6 +91,7 @@ router.post('/orders', isAuthenticated, validateNewOrder, async (req, res) => {
 
     res.redirect('/dashboard');
   } catch (err) {
+    console.error(err);  // Log the error for debugging
     res.status(500).json({ error: 'Failed to create new order' });
   }
 });
@@ -106,6 +109,7 @@ router.put('/orders/:id', isAuthenticated, async (req, res) => {
     }
     res.status(200).json({ message: 'Order updated successfully' });
   } catch (err) {
+    console.error(err);  // Log the error for debugging
     res.status(500).json({ error: 'Failed to update order' });
   }
 });
@@ -120,6 +124,7 @@ router.delete('/orders/:id', isAuthenticated, async (req, res) => {
     }
     res.status(200).json({ message: 'Order deleted successfully' });
   } catch (err) {
+    console.error(err);  // Log the error for debugging
     res.status(500).json({ error: 'Failed to deleted order' });
   }
 });
