@@ -14,7 +14,7 @@ Icing is an application built to help bakery managers and employees track orders
 - [Questions](#questions)
 
 ## Installation
-Navigate to deployed Render endpoint URL
+Navigate to deployed Render endpoint URL. Sample Login: Username: jane@bakery.com and Password: password1!
 
 ## Usage
 A bakery order tracking app built with Node.js, Express, Handlebars, PostgreSQL, and Sequelize, with JOI session validation.
